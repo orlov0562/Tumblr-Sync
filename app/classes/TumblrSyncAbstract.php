@@ -5,11 +5,14 @@
 	{
 		protected $client;
 		protected $options = null;
-		protected $blogName;
 		
 		public function __construct(\Tumblr\API\Client $client, array $options=[]) {
 			$this->client = $client;
 			$this->setOptions($options);
+		}
+		
+		protected function getOptions() {
+			return $this->options;
 		}
 		
 		public function setOptions(array $options, $startFromDefOptions=true, $autoSetBlogName=true) {
@@ -24,17 +27,13 @@
 
 		protected function getDefaultOptions() {
 			return [
-				'syncFolder' => './files/', // директорию куда будут сохраняться элементы
-				'blogName' => null, // id блога, если не задано, будет взят первый блог владельца
-				'syncUntilFindFirstExistsItem'=> true, //  останавливаться после того как найден первый скачанный элемент
-				'skipExistsItems'=> true, //  пропускать существующие элементы
+				'syncFolder' => './files/', // directory where lements will be stored
+				'blogName' => null, // blog ID (external allowed), if is null the first user blog will use
+				'syncUntilFindFirstExistsItem'=> true, //  stop scanning, after first saved element found
+				'skipExistsItems'=> true, //  skip exists elements
 			];
 		}
 
-		protected function getOptions() {
-			return $this->options;
-		}
-		
 		// https://api.tumblr.com/console/calls/user/info
 		protected function getFirstBlogName() {
 			$req = $this->client->getUserInfo();
@@ -42,11 +41,15 @@
 		}		
 		
 		public function doSync($limit=0) {
+			$ret=0;
 			$syncItems = $this->getItemsListToSync();
 			foreach($syncItems as $k=>$item) {
 				if ($limit && $k >= $limit) break;
-				$this->saveToFile($item['url'], $item['file_path']);
+				if ($this->saveToFile($item['url'], $item['file_path'])) {
+					$ret++;
+				}
 			}
+			return $ret;
 		}	
 		
 		protected function getItemsListToSync(){
@@ -58,8 +61,8 @@
 					$items = $this->getNotSyncedItems($post);
 					
 					if (!$items AND !empty($this->options['syncUntilFindFirstExistsItem'])) {
-						// на последней обработанной страницы не нашли новых элементов
-						// считаем, что они все скачанны, поэтому нет смысла искать дальше
+						// If we do not found any new elements we decide that all elemets already saved
+						// so no sense to continue scanning
 						break(2);
 					}
 					
@@ -118,6 +121,12 @@
 			}
 			return $ret;
 		}
+
+		protected function saveToFile($url, $filePath) {
+			$dirPath = dirname($filePath);
+			if (!is_dir($dirPath)) mkdir($dirPath, 0755, true);
+			return file_put_contents($filePath, fopen($url, 'r'));
+		}
 		
 		protected function getFilePathForItem($url, $pathPrefix=null) {
 			$basePath = $this->options['syncFolder'].($pathPrefix ? $pathPrefix : '');
@@ -128,12 +137,6 @@
 				$fileName = md5($url);
 			}
 			return $basePath.$fileName;
-		}
-		
-		protected function saveToFile($url, $filePath) {
-			$dirPath = dirname($filePath);
-			if (!is_dir($dirPath)) mkdir($dirPath, 0755, true);
-			return file_put_contents($filePath, fopen($url, 'r'));
 		}
 		
 		abstract protected function getPostType();

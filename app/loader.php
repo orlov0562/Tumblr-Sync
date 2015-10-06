@@ -4,6 +4,7 @@
 	define('APP_DIR', ROOT_DIR.'/app/');	
 
 	require_once(APP_DIR.'config.php');
+	require_once(APP_DIR.'func.php');	
 	
 	require_once(ROOT_DIR.'vendor/autoload.php');
 	
