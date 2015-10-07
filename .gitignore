@@ -1,5 +1,5 @@
 /todo
-/run.lock
+/*.lock
 /app/config.php
 /images/*
 /videos/*

@@ -157,6 +157,8 @@
 
 			if (preg_match('~/([^/]+)$~', $url, $regs)) {
 				$fileName = $regs[1];
+				$fileName = str_replace('tumblr_', '', $fileName);
+				$fileName = str_pad($fileName, 32, '@', STR_PAD_LEFT);				
 			} else {
 				$fileName = md5($url);
 			}

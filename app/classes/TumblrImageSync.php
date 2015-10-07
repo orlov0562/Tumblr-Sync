@@ -11,7 +11,7 @@
 			$ret = [];
 			foreach ($post->photos as $photo) {
 				$pathPrefix = $this->options['blogName'] .'-'.date('Y', $post->timestamp).'/'
-							  .date('d-m-Y_H-i', $post->timestamp).'-';
+							  .date('ymdHi', $post->timestamp).'-';
 				$ret[] = [
 					'file_path' => $this->getFilePathForItem(
 						$photo->original_size->url, 

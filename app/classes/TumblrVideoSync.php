@@ -9,7 +9,7 @@
 		
 		protected function getItemsFromPost($post) {
 			$pathPrefix = $this->options['blogName'].'-'.date('Y', $post->timestamp).'/'
-						  .date('d-m-Y_H-i', $post->timestamp).'-';
+						  .date('ymdHi', $post->timestamp).'-';
 			return [[
 				'file_path' => $this->getFilePathForItem(
 					$post->video_url, 

@@ -41,10 +41,10 @@
 			die('Err: Undefined sync type, allowed types: all, images, videos'.PHP_EOL);
 		}
 
-		$lock = RunLock(ROOT_DIR.'run.lock');
-
 		$blogName = null;
 		if (!empty($argv[2]) AND trim($argv[2])) $blogName = $argv[2];
+
+		$lock = RunLock(ROOT_DIR.'run'.($blogName?'-'.$blogName:'').'.lock');
 
 		$client = new \Tumblr\API\Client(
 			CONSUMER_KEY, CONSUMER_SECRET, 
