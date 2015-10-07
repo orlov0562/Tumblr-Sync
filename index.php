@@ -1,6 +1,6 @@
 <?php
 	/* ---------------------------------------------------------------------------------------
-	 * Script that syncing images and videos with your or any other Tumblr Blog
+	 * Script that syncing images and videos from your or any other Tumblr Blog with your PC
      *
 	 * Author: Vitaliy Orlov | https://github.com/orlov0562
 	 * License: Haha, you can do with this code anything that you want, even fap-fap. But
