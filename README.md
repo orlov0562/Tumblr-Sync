@@ -1,5 +1,5 @@
 # Tumblr-Sync
-Script that syncing images and videos with your or any other Tumblr Blog
+Script that syncing images and videos from your or any other Tumblr Blog with your PC
 
 Initial configuration:
 - do composer install
