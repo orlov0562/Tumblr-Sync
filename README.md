@@ -12,6 +12,7 @@ items (post with video or image) from your blog, this script DO NOT automaticaly
 from your PC
 
 Examples of cron configuration
+
 0 * * * * * php PATH-TO-THE-SCRIPT-FOLDER/index.php 
 0 * * * * * php PATH-TO-THE-SCRIPT-FOLDER/index.php images	 
 0 0 * * * * php PATH-TO-THE-SCRIPT-FOLDER/index.php videos	 
