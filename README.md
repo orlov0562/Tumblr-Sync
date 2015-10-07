@@ -16,7 +16,7 @@ Examples of cron configuration
 0 * * * * * php PATH-TO-THE-SCRIPT-FOLDER/index.php 
 0 * * * * * php PATH-TO-THE-SCRIPT-FOLDER/index.php images	 
 0 0 * * * * php PATH-TO-THE-SCRIPT-FOLDER/index.php videos	 
-0 0 * * * * php PATH-TO-THE-SCRIPT-FOLDER/index.php images fluffy-kittens 	 
+0 0 * * * * php PATH-TO-THE-SCRIPT-FOLDER/index.php all fluffy-kittens 	 
 ```
 
 If you need more information you may find this links usefull:
