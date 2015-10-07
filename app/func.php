@@ -6,6 +6,6 @@
         if (flock($fp, LOCK_EX | LOCK_NB)) {
             return $fp;
         } else {
-            die($exitText);
+            die($exitText.PHP_EOL);
         }
     }

@@ -125,7 +125,9 @@
 		protected function saveToFile($url, $filePath) {
 			$dirPath = dirname($filePath);
 			if (!is_dir($dirPath)) mkdir($dirPath, 0755, true);
-			return file_put_contents($filePath, fopen($url, 'r'));
+			$ret = file_put_contents($filePath.'.part', fopen($url, 'r'));
+			if ($ret) rename($filePath.'.part', $filePath);
+			return $ret;
 		}
 		
 		protected function getFilePathForItem($url, $pathPrefix=null) {

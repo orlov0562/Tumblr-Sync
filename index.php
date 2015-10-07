@@ -70,22 +70,23 @@
 			OAUTH_TOKEN, OAUTH_SECRET
 		);
 		
-		$dw = 0;
+		$dwImages = 0;
 		if (in_array($argv[1],['all', 'images'])) {
-			$dw += (new TumblrImageSync($client, [
+			$dwImages += (new TumblrImageSync($client, [
 						'syncFolder' => IMAGES_FOLDER,
 						'blogName' => $blogName,
 			]))->doSync();
 		}
-		
+
+		$dwVideos = 0;		
 		if (in_array($argv[1],['all', 'videos'])) {
-			$dw += (new TumblrVideoSync($client, [
+			$dwVideos += (new TumblrVideoSync($client, [
 						'syncFolder' => VIDEOS_FOLDER,
 						'blogName' => $blogName,
 			]))->doSync();
 		}
 		
-		die('Sync complete, files downloaded: '.$dw.PHP_EOL);
+		die('Sync complete, downloaded: '.$dwImages.' images, '.$dwVideos.' videos'.PHP_EOL);
 	}
 ?>
 
