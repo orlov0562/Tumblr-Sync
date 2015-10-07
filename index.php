@@ -17,6 +17,8 @@
 
 	if (isCLI() OR isWebStart()) {
 	
+		if (isWebStart()) $argv = $_GET['argv'];
+	
 		if (empty($argv[1]) OR !trim($argv[1])) $argv[1] = 'all';
 		
 		if ($argv[1]=='help') {
@@ -39,7 +41,7 @@
 			die('Err: Undefined sync type, allowed types: all, images, videos'.PHP_EOL);
 		}
 
-//		$lock = RunLock(ROOT_DIR.'run.lock');
+		$lock = RunLock(ROOT_DIR.'run.lock');
 
 		$blogName = null;
 		if (!empty($argv[2]) AND trim($argv[2])) $blogName = $argv[2];
