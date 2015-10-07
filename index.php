@@ -44,7 +44,7 @@
 		$blogName = null;
 		if (!empty($argv[2]) AND trim($argv[2])) $blogName = $argv[2];
 
-		$lock = RunLock(ROOT_DIR.'run'.($blogName?'-'.$blogName:'').'.lock');
+		$lock = RunLock(ROOT_DIR.'tmp/run'.($blogName?'-'.$blogName:'').'.lock');
 
 		$client = new \Tumblr\API\Client(
 			CONSUMER_KEY, CONSUMER_SECRET, 
