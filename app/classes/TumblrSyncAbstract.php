@@ -30,7 +30,8 @@
 				'syncFolder' => './files/', // directory where lements will be stored
 				'blogName' => null, // blog ID (external allowed), if is null the first user blog will use
 				'syncUntilFindFirstExistsItem'=> true, //  stop scanning, after first saved element found
-				'skipExistsItems'=> true, //  skip exists elements
+				'skipExistsItems' => true, //  skip exists elements
+				'progressBar' => false, // show progress bar, usefull for CLI mode
 			];
 		}
 
@@ -42,13 +43,34 @@
 		
 		public function doSync($limit=0) {
 			$ret=0;
+
 			$syncItems = $this->getItemsListToSync();
+			if (!$syncItems) return $ret;
+	
+			$total = $limit ? $limit : count($syncItems);
+						
+			if (!empty($this->options['progressBar']['enabled']) && !empty($this->options['progressBar']['before'])) {
+				call_user_func($this->options['progressBar']['before']);
+			}
+			
 			foreach($syncItems as $k=>$item) {
+
+				if (!empty($this->options['progressBar']['enabled'])) {
+					call_user_func($this->options['progressBar']['callBack'], $k+1, $total);
+				}
+
 				if ($limit && $k >= $limit) break;
+
 				if ($this->saveToFile($item['url'], $item['file_path'])) {
 					$ret++;
 				}
 			}
+			
+			if (!empty($this->options['progressBar']['enabled']) && !empty($this->options['progressBar']['after'])) {
+				call_user_func($this->options['progressBar']['after']);
+			}
+			
+			
 			return $ret;
 		}	
 		

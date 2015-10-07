@@ -15,7 +15,7 @@
 	use App\TumblrImageSync;
 	use App\TumblrVideoSync;	
 
-	if (php_sapi_name() == "cli" or !empty($_GET['argv'])) {
+	if (isCLI() OR isWebStart()) {
 	
 		if (empty($argv[1]) OR !trim($argv[1])) $argv[1] = 'all';
 		
@@ -39,7 +39,7 @@
 			die('Err: Undefined sync type, allowed types: all, images, videos'.PHP_EOL);
 		}
 
-		$lock = RunLock(ROOT_DIR.'run.lock');
+//		$lock = RunLock(ROOT_DIR.'run.lock');
 
 		$blogName = null;
 		if (!empty($argv[2]) AND trim($argv[2])) $blogName = $argv[2];
@@ -48,10 +48,16 @@
 			CONSUMER_KEY, CONSUMER_SECRET, 
 			OAUTH_TOKEN, OAUTH_SECRET
 		);
-		
+
 		$dwImages = 0;
 		if (in_array($argv[1],['all', 'images'])) {
 			$dwImages += (new TumblrImageSync($client, [
+						'progressBar' => [
+							'enabled' => isCLI(),
+							'callBack' => 'progressBar',
+							'before' => function(){echo 'Download images:'.PHP_EOL;},
+							'after' => function(){echo PHP_EOL;},							
+						],
 						'syncFolder' => IMAGES_FOLDER,
 						'blogName' => $blogName,
 			]))->doSync();
@@ -60,6 +66,12 @@
 		$dwVideos = 0;		
 		if (in_array($argv[1],['all', 'videos'])) {
 			$dwVideos += (new TumblrVideoSync($client, [
+						'progressBar' => [
+							'enabled' => isCLI(),
+							'callBack' => 'progressBar',
+							'before' => function(){echo 'Download videos:'.PHP_EOL;},
+							'after' => function(){echo PHP_EOL;},
+						],
 						'syncFolder' => VIDEOS_FOLDER,
 						'blogName' => $blogName,
 			]))->doSync();
@@ -81,7 +93,7 @@
 			
 			Sync type:<br>
 			<select name="argv[1]">
-				<option value="All">All</option>
+				<option value="">All</option>
 				<option value="images">Images</option>				
 				<option value="videos">Videos</option>								
 			</select><br><br>
