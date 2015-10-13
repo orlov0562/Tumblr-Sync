@@ -13,7 +13,8 @@
 	require_once(dirname(__FILE__).'/app/loader.php');
 
 	use App\TumblrImageSync;
-	use App\TumblrVideoSync;	
+	use App\TumblrVideoSync;
+	use App\TumblrLikeSync;		
 
 	if (isCLI() OR isWebStart()) {
 	
@@ -27,7 +28,7 @@
 			echo '---------------'.PHP_EOL;			
 			echo 'Options (all are optional):'.PHP_EOL.PHP_EOL;			
 			echo ' [sync-type] Synchronization type'.PHP_EOL;
-			echo '             Can be one of: all, images, videos'.PHP_EOL;
+			echo '             Can be one of: all, images, videos, likes'.PHP_EOL;
 			echo '             Default: all'.PHP_EOL.PHP_EOL;
 			echo ' [blog-name] Blog ID'.PHP_EOL;
 			echo '             Example: fluffy-kittens (for blog: http://fluffy-kittens.tumblr.com)'.PHP_EOL;
@@ -37,7 +38,7 @@
 			exit;
 		}
 		
-		if (!in_array($argv[1],['all', 'videos', 'images']) ) {
+		if (!in_array($argv[1],['all', 'videos', 'images', 'likes']) ) {
 			die('Err: Undefined sync type, allowed types: all, images, videos'.PHP_EOL);
 		}
 
@@ -79,7 +80,21 @@
 			]))->doSync();
 		}
 		
-		die('Sync complete, downloaded: '.$dwImages.' images, '.$dwVideos.' videos'.PHP_EOL);
+		$dwLikes = 0;		
+		if (in_array($argv[1],['all', 'likes'])) {
+			$dwLikes += (new TumblrLikeSync($client, [
+						'progressBar' => [
+							'enabled' => isCLI(),
+							'callBack' => 'progressBar',
+							'before' => function(){echo 'Download liked items:'.PHP_EOL;},
+							'after' => function(){echo PHP_EOL;},
+						],
+						'syncFolder' => LIKES_FOLDER,
+						'blogName' => $blogName,
+			]))->doSync();
+		}
+		
+		die('Sync complete, downloaded: '.$dwImages.' images, '.$dwVideos.' videos, '.$dwLikes.' liked items'.PHP_EOL);
 	}
 ?>
 
@@ -96,8 +111,9 @@
 			Sync type:<br>
 			<select name="argv[1]">
 				<option value="">All</option>
-				<option value="images">Images</option>				
-				<option value="videos">Videos</option>								
+				<option value="images">Images</option>
+				<option value="videos">Videos</option>
+				<option value="likes">Likes</option>				
 			</select><br><br>
 
 			Blog ID [keep empty if you want to use your first blog]:<br>

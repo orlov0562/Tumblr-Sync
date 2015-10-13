@@ -2,6 +2,7 @@
 
 	define('VIDEOS_FOLDER', ROOT_DIR.'videos/');
 	define('IMAGES_FOLDER', ROOT_DIR.'images/');	
+	define('LIKES_FOLDER', ROOT_DIR.'likes/');
 
 Remove this line after filling your keys bellow, it needed just to throw compilation error  :)
 
