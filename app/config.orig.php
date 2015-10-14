@@ -1,5 +1,9 @@
 <?php
 
+	define('SYNC_VIDEOS', TRUE);
+	define('SYNC_IMAGES', TRUE);	
+	define('SYNC_LIKES', FALSE);
+
 	define('VIDEOS_FOLDER', ROOT_DIR.'videos/');
 	define('IMAGES_FOLDER', ROOT_DIR.'images/');	
 	define('LIKES_FOLDER', ROOT_DIR.'likes/');

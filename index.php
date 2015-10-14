@@ -53,7 +53,7 @@
 		);
 
 		$dwImages = 0;
-		if (in_array($argv[1],['all', 'images'])) {
+		if (defined('SYNC_IMAGES') && SYNC_IMAGES && in_array($argv[1],['all', 'images'])) {
 			$dwImages += (new TumblrImageSync($client, [
 						'progressBar' => [
 							'enabled' => isCLI(),
@@ -67,7 +67,7 @@
 		}
 
 		$dwVideos = 0;		
-		if (in_array($argv[1],['all', 'videos'])) {
+		if (defined('SYNC_VIDEOS') && SYNC_VIDEOS && in_array($argv[1],['all', 'videos'])) {
 			$dwVideos += (new TumblrVideoSync($client, [
 						'progressBar' => [
 							'enabled' => isCLI(),
@@ -81,7 +81,7 @@
 		}
 		
 		$dwLikes = 0;		
-		if (in_array($argv[1],['all', 'likes'])) {
+		if (defined('SYNC_LIKES') && SYNC_LIKES && in_array($argv[1],['all', 'likes'])) {
 			$dwLikes += (new TumblrLikeSync($client, [
 						'progressBar' => [
 							'enabled' => isCLI(),
