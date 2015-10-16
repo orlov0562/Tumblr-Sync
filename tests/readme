@@ -1,0 +1,5 @@
+To run phpunit install it as phar according to this instruction:
+https://phpunit.de/getting-started.html
+
+Predefined configuration values that you can use in phpunit.xml you can find here:
+https://phpunit.de/manual/current/en/phpunit-book.html#appendixes.configuration

@@ -3,6 +3,9 @@
 	
 	class TumblrLikeSync extends TumblrSyncAbstract
 	{
+		/**
+		 * @codeCoverageIgnore
+		 */
 		protected function getPostType() {
 			// that function just need to redeclare abstract method
 			return 'likes';

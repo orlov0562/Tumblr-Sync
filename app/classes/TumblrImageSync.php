@@ -3,6 +3,7 @@
 	
 	class TumblrImageSync extends TumblrSyncAbstract
 	{
+		// # covered	
 		protected function getPostType() {
 			return 'photo';
 		}

@@ -10,7 +10,8 @@
 			$this->client = $client;
 			$this->setOptions($options);
 		}
-		
+
+		// # covered		
 		protected function getOptions() {
 			return $this->options;
 		}
@@ -25,6 +26,7 @@
 			}
 		}
 
+		// # covered
 		protected function getDefaultOptions() {
 			return [
 				'syncFolder' => './files/', // directory where lements will be stored
@@ -35,6 +37,7 @@
 			];
 		}
 
+		// # covered
 		// https://api.tumblr.com/console/calls/user/info
 		protected function getFirstBlogName() {
 			$req = $this->client->getUserInfo();
@@ -70,10 +73,10 @@
 				call_user_func($this->options['progressBar']['after']);
 			}
 			
-			
 			return $ret;
 		}	
-		
+
+		// # covered		
 		protected function getItemsListToSync(){
 			$ret = [];
 			$pagesCount = $this->getPagesCount();
@@ -96,7 +99,8 @@
 			
 			return array_reverse ($ret);
 		}
-		
+
+		// # covered		
 		protected function getPagesCount() {
 			return  ceil($this->getPostsCount() / $this->getPostsPerRequest());
 		}
@@ -124,6 +128,7 @@
 			return $this->client->getBlogPosts($this->options['blogName'] , $options);
 		}
 
+		// # covered
 		protected function getPostsPerRequest(){
 			return 20;
 		}
@@ -144,6 +149,9 @@
 			return $ret;
 		}
 
+		/**
+		 * @codeCoverageIgnore
+		 */
 		protected function saveToFile($url, $filePath) {
 			$dirPath = dirname($filePath);
 			if (!is_dir($dirPath)) mkdir($dirPath, 0755, true);
@@ -151,7 +159,8 @@
 			if ($ret) rename($filePath.'.part', $filePath);
 			return $ret;
 		}
-		
+
+		// # covered		
 		protected function getFilePathForItem($url, $pathPrefix=null) {
 			$basePath = $this->options['syncFolder'].($pathPrefix ? $pathPrefix : '');
 
@@ -164,7 +173,8 @@
 			}
 			return $basePath.$fileName;
 		}
-		
+
 		abstract protected function getPostType();
+		
 		abstract protected function getItemsFromPost($post);
 	}
